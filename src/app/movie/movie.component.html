@@ -1,0 +1,36 @@
+<span style='font-size:30px' > {{activatedRoute.snapshot.params.fovourite ? 'Favouite Movies': 'All Movies'}}</span>
+<div class='m-1'>
+  <input class='text-center p-1' type='text' #movName ngModel required [(ngModel)]='getMovie' placeholder='Movie Title...' />
+  <button class='btn btn-success' [disabled]='movName.value == ""' (click)="getFromServer();"> Get Movie </button>
+
+</div>
+<div class='row '>
+
+  <div class = 'col-4' *ngIf ='movie != null'>
+    <ul class = "list-group">
+      <li class="list-group-item"  style="cursor:pointer" 
+      *ngFor = 'let movie of movies; let i =index; '[class.active]='movieId == i' (click)="activeMovie(i)" >
+          {{movie?.title}}
+      </li>
+    </ul>
+  </div> 
+
+    <h2 *ngIf ='movie == null' class='border ' style="position:absolute;top:30%;left:40%"> No Movies</h2> 
+    <div *ngIf ='movie != null' class = 'row col-8 border border-bright' >
+        <img class = 'col-md-5' style="height:100%" [src]='movie?.imgSrc'/>
+        <div  class=" col-md-7">
+          <button class='btn btn-danger float-right mt-1' (click)='deleteMovie()' > Delete </button>
+          <h2>{{movie?.title }}  </h2>  
+          <p> {{movie?.rating}}  <img src='../../assets/images/star.png' width='20'> </p>
+          <p><strong>Director : </strong> {{movie?.director}} </p>
+          <p><strong>Writer : </strong> {{movie?.writer}} </p>
+          <p  ><strong>actors : </strong> 
+            <span  *ngFor="let actor of movie?.actors"> 
+              {{actor}},<br/>
+              </span>
+          </p>
+          <button class='btn btn-info mt-3' (click)="toggleFav()"> 
+          {{ movie.isFavourite ? 'Remove from Favourites' : 'Add To Favourites'}} </button>
+        </div>
+  </div>
+</div>
